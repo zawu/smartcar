@@ -13,7 +13,8 @@
     "axios": "^0.16.1",
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "apicache": "^0.8.4"    
   },
   "devDependencies": {
     "chai": "^3.5.0",
