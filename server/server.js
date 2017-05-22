@@ -35,6 +35,7 @@ var swaggerJson = require('../swagger.json'); //Following http://mherman.org/blo
 
 ////////////////////////////////////////////////////////////
 
+app.set('port', (process.env.PORT || 3000));
 
 app.use(bodyparser.json()); //Use bodyparser in order to parse any post requests 
 app.use(express.static(path.join(__dirname, '../public'))); //To serve swagger api at http://localhost:3000/api-docs/
@@ -47,8 +48,8 @@ app.get('/swagger.json', function(req, res) {
   res.send(swaggerJson);
 });
 
-app.listen(3000, function () {
-  console.log('Server listening on port 3000!')
+app.listen(app.get('port'), function () {
+  console.log('Node app is running on port', app.get('port'));
 })
 
 
