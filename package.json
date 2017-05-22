@@ -14,7 +14,8 @@
     "body-parser": "~1.13.2",
     "express": "~4.13.1",
     "nodemon": "^1.11.0",
-    "apicache": "^0.8.4"    
+    "apicache": "^0.8.4",
+    "parse-headers": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
