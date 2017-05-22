@@ -1,0 +1,294 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Smartcar API",
+    "description": "API that makes HTTP requests to the GM API. <br>The flow looks like this: client --request--> Smartcar API --request--> GM API. <br>The GM API server is running at gmapi.azurewebsites.net. ",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "name": "zacharywu7@gmail.com"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/vehicles/{id}": {
+      "get": {
+        "description": "Return vehicle info based on a single ID",
+        "operationId": "getVehicleInfo",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of vehicle to get",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "pet response",
+            "schema": {
+              "$ref": "#/definitions/Vehicle"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    },
+    "/vehicles/{id}/doors": {
+       "get": {
+         "description": "Return a vehicle's security information given a single ID",
+         "operationId": "getSecurity",
+         "produces": [
+           "application/json"
+         ],
+         "parameters": [
+           {
+             "name": "id",
+             "in": "path",
+             "description": "ID of vehicle to get",
+             "required": true,
+             "type": "integer",
+             "format": "int64"
+           }
+         ],
+         "responses": {
+           "200": {
+             "description": "Security response",
+             "schema": {
+               "$ref": "#/definitions/Security"
+             }
+           },
+           "default": {
+             "description": "unexpected error",
+             "schema": {
+               "$ref": "#/definitions/ErrorModel"
+             }
+           }
+         }
+       }
+     },
+    "/vehicles/{id}/fuel": {
+       "get": {
+         "description": "Return a vehicle's fuel percentage given a single ID",
+         "operationId": "getFuelRange",
+         "produces": [
+           "application/json"
+         ],
+         "parameters": [
+           {
+             "name": "id",
+             "in": "path",
+             "description": "ID of vehicle to get",
+             "required": true,
+             "type": "integer",
+             "format": "int64"
+           }
+         ],
+         "responses": {
+           "200": {
+             "description": "Fuel Percentage",
+             "schema": {
+               "$ref": "#/definitions/EnergyLevel"
+             }
+           },
+           "default": {
+             "description": "unexpected error",
+             "schema": {
+               "$ref": "#/definitions/ErrorModel"
+             }
+           }
+         }
+       }
+     },
+    "/vehicles/{id}/battery": {
+       "get": {
+         "description": "Return a vehicle's battery percentage given a single ID",
+         "operationId": "getBatteryRange",
+         "produces": [
+           "application/json"
+         ],
+         "parameters": [
+           {
+             "name": "id",
+             "in": "path",
+             "description": "ID of vehicle to get",
+             "required": true,
+             "type": "integer",
+             "format": "int64"
+           }
+         ],
+         "responses": {
+           "200": {
+             "description": "Battery Percentage",
+             "schema": {
+               "$ref": "#/definitions/EnergyLevel"
+             }
+           },
+           "default": {
+             "description": "unexpected error",
+             "schema": {
+               "$ref": "#/definitions/ErrorModel"
+             }
+           }
+         }
+       }
+     },
+    "/vehicles/{id}/engine": {
+      "post": {
+        "description": "Starts or Stops an Engine",
+        "operationId": "postEngine",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "pet",
+            "in": "body",
+            "description": "Action to send car engine",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Action"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Engine status",
+            "schema": {
+              "$ref": "#/definitions/Status"
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "schema": {
+              "$ref": "#/definitions/ErrorModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Action": {
+      "type": "object",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string"
+        }
+      }
+    },
+    "Status": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "Vehicle": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      }
+    },
+    "EnergyLevel": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "percent": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "Security": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "percent": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/door"
+          }
+        } 
+      }
+    },
+    "door": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "location": "string"
+        },
+        "locked": {
+          "type": "boolean"
+        } 
+      }
+    },
+    "ErrorModel": {
+      "type": "object",
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
